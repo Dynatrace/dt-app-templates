@@ -1,0 +1,37 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.eslint.json"]
+  },
+  "plugins": ["@typescript-eslint", "react-hooks", "@microsoft/eslint-plugin-sdl", "no-secrets"],
+  "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended", "plugin:@microsoft/eslint-plugin-sdl/recommended", "plugin:@microsoft/eslint-plugin-sdl/react"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/no-unescaped-entities": "off",
+    "react/prop-types": "off",
+    "no-eval": "error",
+    "@typescript-eslint/no-implied-eval": "error",
+    "react/no-danger": "warn",
+    "react/jsx-no-script-url": "warn",
+    "@microsoft/sdl/no-inner-html": "warn",
+    "@microsoft/sdl/no-document-write": "warn",
+    "no-secrets/no-secrets": [
+      "error",
+      {
+        "additionalRegexes": {
+          "Dynatrace Token": "dt0[a-zA-Z]{1}[0-9]{2}\\.[A-Z0-9]{8,24}\\.[A-Z0-9]{64}"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}

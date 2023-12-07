@@ -1,0 +1,9 @@
+{
+  "name": "cli-templates",
+  "devDependencies": {
+    "@types/lodash.kebabcase": "^4.1.7",
+    "lodash.kebabcase": "^4.1.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}
