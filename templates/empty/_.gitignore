@@ -34,3 +34,7 @@
 # System Files
 .DS_Store
 Thumbs.db
+
+# app-settings plugin local files
+/settings/local-mock-data/secrets.json
+/settings/local-mock-data/persistence/
