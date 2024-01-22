@@ -23,7 +23,6 @@ module.exports = config;
 
 - modify `package.json` and replace `"dt-app": "{{version}}"` with the current App Toolkit version. Do not commit this change!
 - run `npm install` and `npm start`
-`test pollSCM`
 
 ## Test your changes locally
 
