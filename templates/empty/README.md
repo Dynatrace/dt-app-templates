@@ -20,11 +20,11 @@ Builds the app for production to the `dist` folder. It correctly bundles your ap
 
 ### `npm run deploy` or `yarn deploy`
 
-Builds the app and deploys it to the specified environment in `app.config.(json|js|ts)`.
+Builds the app and deploys it to the specified environment in `app.config.json`.
 
 ### `npm run uninstall` or `yarn uninstall`
 
-Uninstalls the app from the specified environment in `app.config.(json|js|ts)`.
+Uninstalls the app from the specified environment in `app.config.json`.
 
 ### `npm run generate:function` or `yarn generate:function`
 
@@ -44,6 +44,6 @@ Outputs help for the Dynatrace App Toolkit.
 
 ## Learn more
 
-You can find more information on how to use all the features of the new Dynatrace Platform in the [Developer Portal](https://developer.dynatracelabs.com/).
+You can find more information on how to use all the features of the new Dynatrace Platform in the [Developer Portal](https://developer.dynatrace.com/).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
