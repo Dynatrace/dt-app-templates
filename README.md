@@ -2,6 +2,8 @@
 
 ## Structure
 
+## some header
+
 Folders directly inside the `templates` directory contain templates for the App Toolkit. The folder names are the identifier of the templates (used by the `--template` parameter when creating a new project).
 
 ## Develop the templates
