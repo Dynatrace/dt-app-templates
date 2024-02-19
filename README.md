@@ -15,7 +15,6 @@ import type { CliOptions } from "dt-app";
 
 const config: CliOptions = {
   environmentUrl: "YOUR_ENVIRONMENT_URL",
-  oauthUrl: "https://sso-dev.dynatracelabs.com",
 };
 
 module.exports = config;
