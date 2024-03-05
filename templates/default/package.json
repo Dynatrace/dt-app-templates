@@ -33,7 +33,7 @@
     "react-router-dom": "^6.22.2"
   },
   "devDependencies": {
-    "dt-app": "0.114.2",
+    "{{dtApp}}": "{{version}}",
     "@microsoft/eslint-plugin-sdl": "^0.2.0",
     "@types/node": "^16.11.34",
     "@types/react": "^18.2.63",
