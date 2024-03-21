@@ -6,6 +6,7 @@
     "build": "dt-app build --prod",
     "start": "dt-app dev",
     "generate:function": "dt-app generate function",
+    "generate:action": "dt-app generate action",
     "uninstall": "dt-app uninstall",
     "deploy": "dt-app deploy",
     "update": "dt-app update",
