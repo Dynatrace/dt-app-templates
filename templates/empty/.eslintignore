@@ -1,4 +1,4 @@
 node_modules
 dist
 app.config.ts
-jest.*.config.js
+jest.*config.js
