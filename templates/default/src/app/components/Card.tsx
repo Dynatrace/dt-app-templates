@@ -1,7 +1,7 @@
 import Borders from "@dynatrace/strato-design-tokens/borders";
 import BoxShadows from "@dynatrace/strato-design-tokens/box-shadows";
 import Colors from "@dynatrace/strato-design-tokens/colors";
-import { Flex, Link } from "@dynatrace/strato-components-preview";
+import { Flex, Link } from "@dynatrace/strato-components";
 import { Link as RouterLink } from "react-router-dom";
 import React from "react";
 

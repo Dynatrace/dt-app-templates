@@ -1,5 +1,6 @@
 import React from "react";
-import { AppHeader, AppName, Page, Flex, Code, Heading, Paragraph } from "@dynatrace/strato-components-preview";
+import { AppHeader, AppName, Page } from "@dynatrace/strato-components-preview";
+import { Flex, Code, Heading, Paragraph } from "@dynatrace/strato-components";
 
 export const App = () => {
   return (
