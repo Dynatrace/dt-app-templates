@@ -11,7 +11,7 @@ import {
 } from "@dynatrace/strato-components-preview";
 import { useDqlQuery } from "@dynatrace-sdk/react-hooks";
 import * as Colors from "@dynatrace/strato-design-tokens/colors";
-import { ErrorIcon } from "@dynatrace/strato-icons";
+import { CriticalIcon } from "@dynatrace/strato-icons";
 import React, { useState } from "react";
 
 export const Data = () => {
@@ -62,7 +62,7 @@ export const Data = () => {
         <Flex justifyContent={errorDetails ? "space-between" : "flex-end"}>
           {errorDetails && (
             <Flex alignItems={"center"} style={{ color: Colors.default.Text.Critical.Default }}>
-              <ErrorIcon />
+              <CriticalIcon />
               <Paragraph>{errorDetails?.details?.errorMessage}</Paragraph>
             </Flex>
           )}
