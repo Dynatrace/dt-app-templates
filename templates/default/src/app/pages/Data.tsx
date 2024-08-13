@@ -6,10 +6,9 @@ import {
   convertToTimeseries,
   recommendVisualizations,
 } from "@dynatrace/strato-components-preview";
-import { Paragraph, Heading } from "@dynatrace/strato-components/typography";
-import { Flex } from "@dynatrace/strato-components";
+import { Flex, Paragraph, Heading } from "@dynatrace/strato-components";
 import { useDqlQuery } from "@dynatrace-sdk/react-hooks";
-import * as Colors from "@dynatrace/strato-design-tokens/colors";
+import Colors from "@dynatrace/strato-design-tokens/colors";
 import { CriticalIcon } from "@dynatrace/strato-icons";
 import React, { useState } from "react";
 
@@ -75,7 +74,7 @@ export const Data = () => {
           {errorDetails && (
             <Flex
               alignItems={"center"}
-              style={{ color: Colors.default.Text.Critical.Default }}
+              style={{ color: Colors.Text.Critical.Default }}
             >
               <CriticalIcon />
               <Paragraph>{errorDetails?.details?.errorMessage}</Paragraph>
