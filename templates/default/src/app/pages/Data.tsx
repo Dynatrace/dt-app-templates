@@ -1,16 +1,20 @@
+import React, { useState } from "react";
+
+import { Flex } from "@dynatrace/strato-components/layouts";
+import { Heading, Paragraph } from "@dynatrace/strato-components/typography";
 import {
-  DQLEditor,
-  QueryStateType,
   RunQueryButton,
-  TimeseriesChart,
+  type QueryStateType,
+} from "@dynatrace/strato-components-preview/buttons";
+import { TimeseriesChart } from "@dynatrace/strato-components-preview/charts";
+import {
   convertToTimeseries,
   recommendVisualizations,
-} from "@dynatrace/strato-components-preview";
-import { Flex, Paragraph, Heading } from "@dynatrace/strato-components";
-import { useDqlQuery } from "@dynatrace-sdk/react-hooks";
+} from "@dynatrace/strato-components-preview/conversion-utilities";
+import { DQLEditor } from "@dynatrace/strato-components-preview/editors";
 import Colors from "@dynatrace/strato-design-tokens/colors";
 import { CriticalIcon } from "@dynatrace/strato-icons";
-import React, { useState } from "react";
+import { useDqlQuery } from "@dynatrace-sdk/react-hooks";
 
 export const Data = () => {
   const initialQuery =

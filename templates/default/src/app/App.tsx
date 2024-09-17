@@ -1,4 +1,4 @@
-import { Page } from "@dynatrace/strato-components-preview";
+import { Page } from "@dynatrace/strato-components-preview/layouts";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Data } from "./pages/Data";

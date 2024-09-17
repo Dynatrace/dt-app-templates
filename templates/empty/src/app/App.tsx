@@ -1,14 +1,18 @@
 import React from "react";
-import { AppHeader, AppName, Page } from "@dynatrace/strato-components-preview";
-import { Flex, Code, Heading, Paragraph } from "@dynatrace/strato-components";
+
+import { Flex } from "@dynatrace/strato-components/layouts";
+import {
+  Code,
+  Heading,
+  Paragraph,
+} from "@dynatrace/strato-components/typography";
+import { AppHeader, Page } from "@dynatrace/strato-components-preview/layouts";
 
 export const App = () => {
   return (
     <Page>
       <Page.Header>
-        <AppHeader>
-          <AppName />
-        </AppHeader>
+        <AppHeader />
       </Page.Header>
       <Page.Main>
         <Flex padding={16} flexDirection="column">
