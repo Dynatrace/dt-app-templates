@@ -1,11 +1,12 @@
 import React from "react";
+
+import { useCurrentTheme } from "@dynatrace/strato-components/core";
+import { Flex } from "@dynatrace/strato-components/layouts";
 import {
-  Flex,
   Heading,
   Paragraph,
   Strong,
-  useCurrentTheme,
-} from "@dynatrace/strato-components";
+} from "@dynatrace/strato-components/typography";
 import { Card } from "../components/Card";
 
 export const Home = () => {

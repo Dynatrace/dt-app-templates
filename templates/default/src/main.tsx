@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { AppRoot } from "@dynatrace/strato-components";
+import { AppRoot } from "@dynatrace/strato-components/core";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./app/App";
 
