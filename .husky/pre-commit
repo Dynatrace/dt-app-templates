@@ -1,0 +1,2 @@
+npm run lint:default
+npm run lint:empty
