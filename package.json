@@ -2,8 +2,14 @@
   "name": "cli-templates",
   "devDependencies": {
     "@types/lodash.kebabcase": "^4.1.7",
+    "husky": "^8.0.0",
     "lodash.kebabcase": "^4.1.1",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "lint:default": "eslint templates/default -c templates/default/.eslintrc --ext .ts,.tsx",
+    "lint:empty": "eslint templates/empty -c templates/empty/.eslintrc --ext .ts,.tsx"
   }
 }

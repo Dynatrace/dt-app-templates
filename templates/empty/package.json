@@ -44,6 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.15.0",
+    "eslint-plugin-deprecation": "^3.0.0",
     "eslint-plugin-no-secrets": "^0.8.9",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",

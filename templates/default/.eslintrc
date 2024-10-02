@@ -7,7 +7,7 @@
     "project": ["./tsconfig.eslint.json"]
   },
   "plugins": ["@typescript-eslint", "react-hooks", "@microsoft/eslint-plugin-sdl", "no-secrets"],
-  "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended", "plugin:@microsoft/eslint-plugin-sdl/recommended", "plugin:@microsoft/eslint-plugin-sdl/react"],
+  "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended", "plugin:@microsoft/eslint-plugin-sdl/recommended", "plugin:@microsoft/eslint-plugin-sdl/react", "plugin:deprecation/recommended"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
@@ -30,17 +30,26 @@
     "no-restricted-imports": [
       "error",
       {
-        "name": "@dynatrace/strato-components-preview",
-        "message":
-          "Please import from one of the sub packages, e.g. '@dynatrace/strato-components-preview/buttons' instead.",
-      },
-      {
-        "name": "@dynatrace/strato-components",
-        "message": "Please import from one of the sub packages, e.g. '@dynatrace/strato-components/buttons' instead.",
-      },
-      {
-        "name": "@dynatrace/strato-design-tokens",
-        "message": "Please import from one of the sub packages, e.g. '@dynatrace/strato-design-tokens/colors' instead.",
+        "paths": [
+          {
+            "name": "@dynatrace/strato-components-preview",
+            "message":
+              "Please import from one of the sub packages, e.g. '@dynatrace/strato-components-preview/buttons' instead.",
+          },
+          {
+            "name": "@dynatrace/strato-components",
+            "message": "Please import from one of the sub packages, e.g. '@dynatrace/strato-components/buttons' instead.",
+          },
+          {
+            "name": "@dynatrace/strato-design-tokens",
+            "message": "Please import from one of the sub packages, e.g. '@dynatrace/strato-design-tokens/colors' instead.",
+          }
+        ],
+        "patterns": [{
+          "group": ["@dynatrace/strato-components-preview","@dynatrace/strato-components-preview/*"],
+          "importNames": ["Button", "Flex", "ProgressCircle", "Grid", "Divider", "Text", "Heading", "ExternalLink", "Link", "Container", "Strong", "Skeleton"],
+          "message": "Please use the component from @dynatrace/strato-components instead."
+        }]
       }
     ]
   },
