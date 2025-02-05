@@ -28,7 +28,7 @@
     "@dynatrace-sdk/user-preferences": "^1.1.1",
     "@dynatrace/strato-components": "~0.85.100",
     "@dynatrace/strato-design-tokens": "~0.20.40",
-    "@dynatrace/strato-components-preview": "~0.117.50",
+    "@dynatrace/strato-components-preview": "~0.117.53",
     "@dynatrace/strato-icons": "~0.39.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
