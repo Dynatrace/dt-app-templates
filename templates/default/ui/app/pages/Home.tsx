@@ -23,7 +23,7 @@ export const Home = () => {
 
       <Heading>Welcome To Your Dynatrace App</Heading>
       <Paragraph>
-        Edit <Strong>src/app/pages/Home.tsx</Strong> and save to reload the app.
+        Edit <Strong>ui/app/pages/Home.tsx</Strong> and save to reload the app.
       </Paragraph>
       <Paragraph>
         For more information and help on app development, check out the
