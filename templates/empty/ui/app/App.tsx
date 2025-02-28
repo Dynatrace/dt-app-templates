@@ -18,7 +18,7 @@ export const App = () => {
         <Flex padding={16} flexDirection="column">
           <Heading level={2}>Hello Dynatrace!</Heading>
           <Paragraph>
-            Edit <Code>src/app/App.tsx</Code> and save to reload.
+            Edit <Code>ui/app/App.tsx</Code> and save to reload.
           </Paragraph>
         </Flex>
       </Page.Main>

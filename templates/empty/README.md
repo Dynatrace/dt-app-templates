@@ -12,7 +12,7 @@ In the project directory, you can run:
 
 Runs the app in the development mode. A new browser window with your running app will be automatically opened.
 
-Edit a component file in `src` and save it. The page will reload when you make changes. You may also see any errors in the console.
+Edit a component file in `ui` and save it. The page will reload when you make changes. You may also see any errors in the console.
 
 ### `npm run build` or `yarn build`
 
