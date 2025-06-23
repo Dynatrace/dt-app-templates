@@ -14,7 +14,7 @@ import {
 import { DQLEditor } from "@dynatrace/strato-components-preview/editors";
 import Colors from "@dynatrace/strato-design-tokens/colors";
 import { CriticalIcon } from "@dynatrace/strato-icons";
-import { useDqlQuery } from "@dynatrace-sdk/react-hooks";
+import { useDql } from "@dynatrace-sdk/react-hooks";
 
 export const Data = () => {
   const initialQuery =
@@ -24,8 +24,8 @@ export const Data = () => {
     useState<string>(initialQuery);
   const [queryString, setQueryString] = useState<string>(initialQuery);
 
-  const { data, errorDetails, isLoading, cancel, refetch } = useDqlQuery({
-    body: { query: queryString },
+  const { data, error, isLoading, cancel, refetch } = useDql({
+    query: queryString,
   });
 
   const recommendations = recommendVisualizations(
@@ -44,7 +44,7 @@ export const Data = () => {
   }
 
   let queryState: QueryStateType;
-  if (errorDetails) {
+  if (error) {
     queryState = "error";
   } else if (isLoading) {
     queryState = "loading";
@@ -74,20 +74,18 @@ export const Data = () => {
           value={queryString}
           onChange={(event) => setEditorQueryString(event)}
         />
-        <Flex justifyContent={errorDetails ? "space-between" : "flex-end"}>
-          {errorDetails && (
+        <Flex justifyContent={error ? "space-between" : "flex-end"}>
+          {error && (
             <Flex
               alignItems={"center"}
               style={{ color: Colors.Text.Critical.Default }}
             >
               <CriticalIcon />
-              <Paragraph>{errorDetails?.details?.errorMessage}</Paragraph>
+              <Paragraph>{error.message}</Paragraph>
             </Flex>
           )}
-          {!errorDetails && !data?.records && (
-            <Paragraph>no data available</Paragraph>
-          )}
-          {!errorDetails &&
+          {!error && !data?.records && <Paragraph>no data available</Paragraph>}
+          {!error &&
             data?.records &&
             !recommendations.includes("TimeSeriesChart") && (
               <Paragraph>use a query which has time series data</Paragraph>
