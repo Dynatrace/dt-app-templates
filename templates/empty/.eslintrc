@@ -4,7 +4,7 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": ["./tsconfig.eslint.json"]
+    "project": ["./tsconfig.json"]
   },
   "plugins": ["@typescript-eslint", "react-hooks", "@microsoft/eslint-plugin-sdl", "no-secrets"],
   "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended", "plugin:@microsoft/eslint-plugin-sdl/recommended", "plugin:@microsoft/eslint-plugin-sdl/react", "plugin:deprecation/recommended"],

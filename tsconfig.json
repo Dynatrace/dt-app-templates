@@ -2,5 +2,7 @@
   "compilerOptions": {
     "types": ["node"],
     "esModuleInterop": true
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
 }
