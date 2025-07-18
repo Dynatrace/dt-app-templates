@@ -8,37 +8,37 @@ It uses React in combination with TypeScript, to provide great developer experie
 
 In the project directory, you can run:
 
-### `npm run start` or `yarn start`
+### `npm run start`
 
 Runs the app in the development mode. A new browser window with your running app will be automatically opened.
 
 Edit a component file in `ui` and save it. The page will reload when you make changes. You may also see any errors in the console.
 
-### `npm run build` or `yarn build`
+### `npm run build`
 
 Builds the app for production to the `dist` folder. It correctly bundles your app in production mode and optimizes the build for the best performance.
 
-### `npm run deploy` or `yarn deploy`
+### `npm run deploy`
 
 Builds the app and deploys it to the specified environment in `app.config.json`.
 
-### `npm run uninstall` or `yarn uninstall`
+### `npm run uninstall
 
 Uninstalls the app from the specified environment in `app.config.json`.
 
-### `npm run generate:function` or `yarn generate:function`
+### `npm run generate:function`
 
 Generates a new serverless function for your app in the `api` folder.
 
-### `npm run update` or `yarn update`
+### `npm run update`
 
 Updates @dynatrace-scoped packages to the latest version and applies automatic migrations.
 
-### `npm run info` or `yarn info`
+### `npm run info`
 
 Outputs the CLI and environment information.
 
-### `npm run help` or `yarn run help`
+### `npm run help`
 
 Outputs help for the Dynatrace App Toolkit.
 
