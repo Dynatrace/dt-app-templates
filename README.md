@@ -8,16 +8,19 @@ Folders directly inside the `templates` directory contain templates for the App 
 
 To work directly with the source in the templates directory, follow these steps:
 
-- create a `app.config.ts` file with
+- create a `app.config.json` file with
 
-```typescript
-import type { CliOptions } from "dt-app";
-
-const config: CliOptions = {
-  environmentUrl: "YOUR_ENVIRONMENT_URL",
-};
-
-module.exports = config;
+```json
+{
+  "environmentUrl": "YOUR_ENVIRONMENT_URL",
+  "app": {
+    "id": "your.app.id",
+    "name": "Your app name",
+    "description": "Your very minimal app",
+    "version": "0.0.0",
+"scopes": [{ "name": "storage:logs:read", "comment": "default template" }, { "name": "storage:buckets:read", "comment": "default template" }]
+  }
+}
 ```
 
 - modify `package.json` and replace `"dt-app": "{{version}}"` with the current App Toolkit version. Do not commit this change!
