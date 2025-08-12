@@ -18,7 +18,10 @@ To work directly with the source in the templates directory, follow these steps:
     "name": "Your app name",
     "description": "Your very minimal app",
     "version": "0.0.0",
-"scopes": [{ "name": "storage:logs:read", "comment": "default template" }, { "name": "storage:buckets:read", "comment": "default template" }]
+    "scopes": [
+      { "name": "storage:logs:read", "comment": "default template" },
+      { "name": "storage:buckets:read", "comment": "default template" }
+    ]
   }
 }
 ```
