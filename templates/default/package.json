@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A starting project with routing, fetching data, and charting",
   "scripts": {
-    "build": "dt-app build --prod",
+    "build": "dt-app build",
     "start": "dt-app dev",
     "create:function": "dt-app function create",
     "create:action": "dt-app action create",
