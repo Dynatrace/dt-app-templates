@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "An empty project",
   "scripts": {
-    "build": "dt-app build --prod",
+    "build": "dt-app build",
     "start": "dt-app dev",
     "create:function": "dt-app function create",
     "create:action": "dt-app action create",
