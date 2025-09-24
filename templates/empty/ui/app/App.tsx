@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Flex } from "@dynatrace/strato-components/layouts";
 import {
   Code,
