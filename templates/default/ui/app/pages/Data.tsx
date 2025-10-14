@@ -6,11 +6,10 @@ import {
   RunQueryButton,
   type QueryStateType,
 } from "@dynatrace/strato-components-preview/buttons";
-import { TimeseriesChart } from "@dynatrace/strato-components-preview/charts";
 import {
+  TimeseriesChart,
   convertToTimeseries,
-  recommendVisualizations,
-} from "@dynatrace/strato-components-preview/conversion-utilities";
+} from "@dynatrace/strato-components-preview/charts";
 import { DQLEditor } from "@dynatrace/strato-components-preview/editors";
 import Colors from "@dynatrace/strato-design-tokens/colors";
 import { CriticalIcon } from "@dynatrace/strato-icons";
@@ -28,18 +27,13 @@ export const Data = () => {
     query: queryString,
   });
 
-  const recommendations = recommendVisualizations(
-    data?.records ?? [],
-    data?.types ?? []
-  );
-
   // onClickQuery function is executed when the "RUN QUERY" Button is clicked and fetches the data from Grail.
   function onClickQuery() {
     if (isLoading) {
-      cancel();
+      void cancel();
     } else {
       if (queryString !== editorQueryString) setQueryString(editorQueryString);
-      else refetch();
+      else void refetch();
     }
   }
 
@@ -70,6 +64,7 @@ export const Data = () => {
         </Heading>
       </Flex>
       <Flex flexDirection="column" padding={32}>
+        <Paragraph>Use a query which has time series data:</Paragraph>
         <DQLEditor
           value={queryString}
           onChange={(event) => setEditorQueryString(event)}
@@ -84,18 +79,12 @@ export const Data = () => {
               <Paragraph>{error.message}</Paragraph>
             </Flex>
           )}
-          {!error && !data?.records && <Paragraph>no data available</Paragraph>}
-          {!error &&
-            data?.records &&
-            !recommendations.includes("TimeSeriesChart") && (
-              <Paragraph>use a query which has time series data</Paragraph>
-            )}
           <RunQueryButton
             onClick={onClickQuery}
             queryState={queryState}
           ></RunQueryButton>
         </Flex>
-        {data?.records && recommendations.includes("TimeSeriesChart") && (
+        {data?.records && (
           <TimeseriesChart
             data={convertToTimeseries(data.records, data.types)}
             gapPolicy="connect"
