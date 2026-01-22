@@ -1,5 +1,16 @@
 # AI Coding Agent Instructions
 
+## DQL - Dynatrace Query Language
+
+Before writing any DQL query, the agent must always use the knowledge base (`dql_search` tool) to search for relevant DQL documentation, syntax, and examples, whenever the tool is available.
+
+## UI Components - Strato
+
+Before using any Strato UI component, the agent must always use the knowledge base tools to search for relevant component documentation and usage examples, whenever the tools are available:
+- Use the `strato_search` tool to search for available Strato components by name or keyword.
+- Use the `strato_get_component` tool to retrieve detailed documentation, props, and code examples for a specific component.
+- Use the `strato_get_usecase_details` tool to get code for specific component use cases and patterns.
+
 ## Project Overview
 This repository contains a **Dynatrace App** built with the Dynatrace App Toolkit "dt-app", running on **Dynatrace AppEngine**. Use the **App Toolkit** during development and CI (`dt-app dev`, `dt-app build`, `dt-app deploy`, `dt-app publish`).
 
