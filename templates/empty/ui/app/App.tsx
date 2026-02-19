@@ -24,3 +24,4 @@ export const App = () => {
     </Page>
   );
 };
+
