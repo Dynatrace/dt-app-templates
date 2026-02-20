@@ -10,7 +10,7 @@
     "jsx": "react",
     "lib": ["DOM", "DOM.Iterable", "esnext"],
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "paths": {},
     "rootDir": ".",
     "skipDefaultLibCheck": true,
