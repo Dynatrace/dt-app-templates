@@ -31,7 +31,7 @@ DQL is a **pipeline-style query language** for Grail: you start with a data sour
 ### Platform Services
 A set of services are available to Dynatrace Apps to read and write data. Every service provides a typescript **client sdk** to interact with it. Common services include:
 - **Grail Query Service**: Query Dynatrace Grail data using DQL. Prefer using the `useDql` React hook from `@dynatrace-sdk/react-hooks` in UI code, but the low‑level client `@dynatrace-sdk/client-query` is also available.
-- **Document Service**: Store and retrieve json files. Used e.g. for dashboards, can be shared with other users. Use `@dynatrace-sdk/client-document` to interact with it.
+- **Document Service** (a.k.a. document store): CRUD API for storing **app-generated, user-created content** such as dashboards and notebooks. Protected by IAM; each document lives in the context of an SSO user. Supports sharing and optional history/snapshots. Apps can also ship **ready-made documents**. Use `@dynatrace-sdk/client-document` to interact with it.
 - **(User) App State Service**: Store and retrieve user‑specific or app‑specific key/value data. Used for caching or user preferences. Use `@dynatrace-sdk/client-state` to interact with it.
 
 ## Strato Design System
