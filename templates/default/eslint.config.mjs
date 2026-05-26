@@ -63,7 +63,6 @@ export default defineConfig([
     "**/.dt-app",
     "**/app.config.*",
     "**/jest.*config.js",
-    "**/eslint.config.mjs",
   ]),
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -76,7 +75,7 @@ export default defineConfig([
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.eslint.json",
+        projectService: true,
       },
     },
     plugins: {
@@ -129,7 +128,7 @@ export default defineConfig([
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.eslint.json",
+       projectService: true,
       },
     },
     plugins: {
