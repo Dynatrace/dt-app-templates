@@ -5,12 +5,12 @@ import { Heading, Paragraph } from "@dynatrace/strato-components/typography";
 import {
   RunQueryButton,
   type QueryStateType,
-} from "@dynatrace/strato-components-preview/buttons";
+} from "@dynatrace/strato-components/buttons";
 import {
   TimeseriesChart,
   convertToTimeseries,
-} from "@dynatrace/strato-components-preview/charts";
-import { DQLEditor } from "@dynatrace/strato-components-preview/editors";
+} from "@dynatrace/strato-components/charts";
+import { DQLEditor } from "@dynatrace/strato-components/editors";
 import Colors from "@dynatrace/strato-design-tokens/colors";
 import { CriticalIcon } from "@dynatrace/strato-icons";
 import { useDql } from "@dynatrace-sdk/react-hooks";
