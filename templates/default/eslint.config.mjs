@@ -14,11 +14,6 @@ const noRestrictedImportsDynatraceStratoRule = [
   {
     paths: [
       {
-        name: "@dynatrace/strato-components-preview",
-        message:
-          "Please import from one of the sub packages, e.g. '@dynatrace/strato-components-preview/buttons' instead.",
-      },
-      {
         name: "@dynatrace/strato-components",
         message:
           "Please import from one of the sub packages, e.g. '@dynatrace/strato-components/buttons' instead.",
@@ -27,30 +22,6 @@ const noRestrictedImportsDynatraceStratoRule = [
         name: "@dynatrace/strato-design-tokens",
         message:
           "Please import from one of the sub packages, e.g. '@dynatrace/strato-design-tokens/colors' instead.",
-      },
-    ],
-    patterns: [
-      {
-        group: [
-          "@dynatrace/strato-components-preview",
-          "@dynatrace/strato-components-preview/*",
-        ],
-        importNames: [
-          "Button",
-          "Flex",
-          "ProgressCircle",
-          "Grid",
-          "Divider",
-          "Text",
-          "Heading",
-          "ExternalLink",
-          "Link",
-          "Container",
-          "Strong",
-          "Skeleton",
-        ],
-        message:
-          "Please use the component from @dynatrace/strato-components instead.",
       },
     ],
   },
