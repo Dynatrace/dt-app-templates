@@ -5,7 +5,7 @@ import {
   Heading,
   Paragraph,
 } from "@dynatrace/strato-components/typography";
-import { AppHeader, Page } from "@dynatrace/strato-components-preview/layouts";
+import { AppHeader, Page } from "@dynatrace/strato-components/layouts";
 
 export const App = () => {
   return (

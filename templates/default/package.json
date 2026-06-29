@@ -27,7 +27,6 @@
     "@dynatrace-sdk/react-hooks": "^1.14.1",
     "@dynatrace-sdk/user-preferences": "^1.1.4",
     "@dynatrace/strato-components": "^3.7.0",
-    "@dynatrace/strato-components-preview": "^3.4.0",
     "@dynatrace/strato-design-tokens": "^1.5.0",
     "@dynatrace/strato-icons": "^2.3.0",
     "react": "^18.3.1",
