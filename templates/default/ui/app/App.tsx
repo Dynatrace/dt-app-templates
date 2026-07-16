@@ -1,4 +1,4 @@
-import { Page } from "@dynatrace/strato-components/layouts";
+import { PageLayout } from "@dynatrace/strato-components/layouts";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Data } from "./pages/Data";
@@ -7,16 +7,16 @@ import { Home } from "./pages/Home";
 
 export const App = () => {
   return (
-    <Page>
-      <Page.Header>
+    <PageLayout>
+      <PageLayout.Header>
         <Header />
-      </Page.Header>
-      <Page.Main>
+      </PageLayout.Header>
+      <PageLayout.Content>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/data" element={<Data />} />
         </Routes>
-      </Page.Main>
-    </Page>
+      </PageLayout.Content>
+    </PageLayout>
   );
 };
