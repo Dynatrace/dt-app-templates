@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
     "declaration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -11,7 +10,6 @@
     "lib": ["DOM", "DOM.Iterable", "esnext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "paths": {},
     "rootDir": ".",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true /* Skip type checking of declaration files. */,

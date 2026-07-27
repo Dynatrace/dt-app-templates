@@ -31,8 +31,13 @@
     "@dynatrace/strato-icons": "^2.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-intl": "6.6.2",
+    "react-intl": "7.1.14",
     "react-router-dom": "^6.22.2"
+  },
+  "overrides": {
+    "react-intl": {
+      "typescript": "$typescript"
+    }
   },
   "devDependencies": {
     "{{dtApp}}": "{{version}}",
@@ -48,7 +53,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^6.1.1",
     "eslint-plugin-security": "^3.0.1",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.0",
     "typescript-eslint": "^8.64.0"
   }
 }
