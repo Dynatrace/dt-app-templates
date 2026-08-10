@@ -23,16 +23,16 @@
     "@dynatrace-sdk/app-environment": "^1.1.4",
     "@dynatrace-sdk/client-query": "^1.26.0",
     "@dynatrace-sdk/error-handlers": "^1.3.1",
-    "@dynatrace-sdk/navigation": "^2.2.1",
-    "@dynatrace-sdk/react-hooks": "^1.14.1",
+    "@dynatrace-sdk/navigation": "^2.3.0",
+    "@dynatrace-sdk/react-hooks": "^1.14.2",
     "@dynatrace-sdk/user-preferences": "^1.1.4",
-    "@dynatrace/strato-components": "^3.10.0",
+    "@dynatrace/strato-components": "^3.10.4",
     "@dynatrace/strato-design-tokens": "^1.5.2",
     "@dynatrace/strato-icons": "^2.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-intl": "6.6.2",
-    "react-router-dom": "^6.22.2"
+    "react-intl": "^6.8.9",
+    "react-router-dom": "^6.30.4"
   },
   "devDependencies": {
     "{{dtApp}}": "{{version}}",
@@ -42,13 +42,13 @@
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "eslint": "^9.39.5",
-    "eslint-plugin-n": "^17.24.0",
+    "eslint-plugin-n": "^18.3.0",
     "eslint-plugin-no-secrets": "^2.3.3",
     "eslint-plugin-no-unsanitized": "^4.1.5",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^6.1.1",
-    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-security": "^4.0.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.64.0"
+    "typescript-eslint": "^8.66.0"
   }
 }
