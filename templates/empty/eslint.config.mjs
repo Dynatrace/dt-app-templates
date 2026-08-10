@@ -36,6 +36,13 @@ export default defineConfig([
     "**/jest.*config.js",
   ]),
   {
+    settings: {
+      react: {
+        version: "18",
+      },
+    },
+  },
+  {
     files: ["**/*.ts", "**/*.tsx"],
     ignores: [
       "**/*.action.*",
