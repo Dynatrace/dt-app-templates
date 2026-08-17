@@ -36,6 +36,13 @@ export default defineConfig([
     "**/jest.*config.js",
   ]),
   {
+    settings: {
+      react: {
+        version: "18",
+      },
+    },
+  },
+  {
     files: ["**/*.ts", "**/*.tsx"],
     ignores: [
       "**/*.action.*",
@@ -99,7 +106,7 @@ export default defineConfig([
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-       projectService: true,
+        projectService: true,
       },
     },
     plugins: {
