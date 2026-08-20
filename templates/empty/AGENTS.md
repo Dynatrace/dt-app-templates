@@ -97,23 +97,63 @@ const result = await queryClient.queryExecute({ body: { query: 'fetch logs | cou
 
 ## Development Workflow
 
-### Commands (via `dt-app` CLI)
-- **Dev Server**: `npm run start` - runs with hot reload, auto-opens browser
-- **Build**: `npm run build` - outputs to `dist/` folder
-- **Deploy**: `npm run deploy` - deploys to environment in `app.config.json`
+### Commands
+
+```bash
+npm run start            # Start dev server with hot reload (opens browser automatically)
+npm run build            # Compile and bundle the app into dist/
+npm run deploy           # Build and deploy to the environment in app.config.json
+npm run lint             # Run ESLint across the entire project
+npm run create:function  # Scaffold a new backend function (Dynatrace JS runtime)
+npm run create:action    # Scaffold a new Action (extends Dynatrace platform actions)
+npm run update           # Update dt-app and SDK dependencies to latest compatible versions
+```
 
 ### Configuration
 - **App Metadata**: `app.config.json` defines app name, ID, version, and required scopes
 - **Environment URL**: Set `environmentUrl` in `app.config.json` to target Dynatrace environment
 - **Scopes**: Add required permissions to `app.config.json` `scopes` array (e.g., `storage:logs:read`, `document:documents:read`, `document:documents:write`, `state:app-states:read`, `state:app-states:write`)
 
-## Key Dependencies
-- `@dynatrace/strato-components`: UI component library
-- `@dynatrace/strato-design-tokens`: Design tokens (colors, borders, shadows)
-- `@dynatrace-sdk/react-hooks`: Hooks for Dynatrace APIs (`useDql`, etc.)
-- `@dynatrace-sdk/client-*`: Query API clients, every service has its own client package
+## Source Structure
+
+```
+app.config.json              # App metadata: name, ID, version, environmentUrl, scopes
+package.json                 # npm scripts and dependencies
+eslint.config.mjs            # ESLint flat config (security + Strato import rules)
+ui/
+  main.tsx                   # React app entry point (ReactDOM.createRoot)
+  tsconfig.json              # TypeScript config for UI code
+  app/
+    App.tsx                  # Root component: minimal starting point
+```
+
+## ESLint Enforcement
+
+ESLint is configured in `eslint.config.mjs` using the flat config format. The following rules cause **CI failures** (set to `"error"`) and must not be violated:
+
+- **No root Strato imports** — importing directly from `@dynatrace/strato-components` or `@dynatrace/strato-design-tokens` package roots is blocked. Always import from the specific subcategory path:
+  ```typescript
+  // Wrong — fails lint
+  import { Flex } from "@dynatrace/strato-components";
+  // Correct
+  import { Flex } from "@dynatrace/strato-components/layouts";
+  ```
+
+- **No secrets** — `eslint-plugin-no-secrets` scans all source files for hardcoded credentials. A custom regex additionally detects Dynatrace API tokens (`dt0[a-zA-Z]{1}[0-9]{2}.\.[A-Z0-9]{8,24}\.[A-Z0-9]{64}`). Never commit tokens or keys.
+
+- **No eval** — `no-eval` is enabled. Dynamic code execution is forbidden.
+
+- **No deprecated APIs** — `@typescript-eslint/no-deprecated` flags calls to deprecated SDK methods or Strato component APIs.
+
+**File-specific rule sets:**
+
+| File pattern | Notes |
+|---|---|
+| `**/*.ts`, `**/*.tsx` (excluding `.action.*`, `.widget.*`, `.test.*`) | Full strict rule set including type-checked TypeScript rules |
+| `**/*.action.ts`, `**/*.widget.tsx` | Same base rules; unsafe TypeScript access rules downgraded to warnings to accommodate the Dynatrace JS runtime environment |
+
+Run `npm run lint` locally before pushing to catch violations early.
 
 ## Common Tasks
-- **Add Route**: Update `Routes` in [ui/app/App.tsx](ui/app/App.tsx) and add nav item to [ui/app/components/Header.tsx](ui/app/components/Header.tsx)
 - **Query Data**: Use `useDql` hook with DQL query string (Dynatrace Query Language)
 - **Style Components**: Import from `@dynatrace/strato-design-tokens/{colors,borders,box-shadows}` for design tokens
