@@ -4,6 +4,20 @@
 
 Before writing any DQL query, the agent must always use the knowledge base (`get_dql_knowledgebase` tool) to search for relevant DQL documentation, syntax, and examples, whenever the tool is available.
 
+## dt-app-mcp Tools
+
+The following MCP tools are available to assist with Dynatrace App development. Always query these tools before writing code — never fabricate prop names, SDK methods, or DQL syntax.
+
+| Tool | Description |
+|---|---|
+| `list_strato_components` | List Strato components by name or keyword. Call this first to find the exact component name before using `get_strato_component`. |
+| `get_strato_component` | Get detailed documentation for a specific Strato component: props, TypeScript types, import statements, code examples, usage guidelines, and accessibility guidelines. |
+| `get_strato_usecases` | Get full, untruncated code for specific Strato component use cases. Call `get_strato_component` first to find available use case names. |
+| `list_sdks` | List available Dynatrace SDK documentation packages. Call this to discover which `@dynatrace-sdk/*` package provides the API you need. |
+| `get_sdk` | Get complete documentation for a specific SDK package: API reference, methods, parameters, return types, and usage examples. |
+| `get_dql_knowledgebase` | Semantic search over the DQL knowledge base for syntax, functions, examples, and best practices. Call this before writing any DQL query. |
+| `get_experience_standard` | Get canonical UX patterns and Strato design guidance by keyword (e.g., `emptystate`, `loading`, `filtering`, `error`, `navigation`). Use this before implementing any common UI pattern. |
+
 ## UI Components - Strato
 
 Before using any Strato UI component, the agent must always use the knowledge base tools to search for relevant component documentation and usage examples, whenever the tools are available:
@@ -97,21 +111,68 @@ const result = await queryClient.queryExecute({ body: { query: 'fetch logs | cou
 
 ## Development Workflow
 
-### Commands (via `dt-app` CLI)
-- **Dev Server**: `npm run start` - runs with hot reload, auto-opens browser
-- **Build**: `npm run build` - outputs to `dist/` folder
-- **Deploy**: `npm run deploy` - deploys to environment in `app.config.json`
+### Commands
+
+```bash
+npm run start            # Start dev server with hot reload (opens browser automatically)
+npm run build            # Compile and bundle the app into dist/
+npm run deploy           # Build and deploy to the environment in app.config.json
+npm run lint             # Run ESLint across the entire project
+npm run create:function  # Scaffold a new backend function (Dynatrace JS runtime)
+npm run create:action    # Scaffold a new Action (extends Dynatrace platform actions)
+npm run update           # Update dt-app and SDK dependencies to latest compatible versions
+```
 
 ### Configuration
 - **App Metadata**: `app.config.json` defines app name, ID, version, and required scopes
 - **Environment URL**: Set `environmentUrl` in `app.config.json` to target Dynatrace environment
 - **Scopes**: Add required permissions to `app.config.json` `scopes` array (e.g., `storage:logs:read`, `document:documents:read`, `document:documents:write`, `state:app-states:read`, `state:app-states:write`)
 
-## Key Dependencies
-- `@dynatrace/strato-components`: UI component library
-- `@dynatrace/strato-design-tokens`: Design tokens (colors, borders, shadows)
-- `@dynatrace-sdk/react-hooks`: Hooks for Dynatrace APIs (`useDql`, etc.)
-- `@dynatrace-sdk/client-*`: Query API clients, every service has its own client package
+## Source Structure
+
+```
+app.config.json              # App metadata: name, ID, version, environmentUrl, scopes
+package.json                 # npm scripts and dependencies
+eslint.config.mjs            # ESLint flat config (security + Strato import rules)
+ui/
+  main.tsx                   # React app entry point (ReactDOM.createRoot)
+  tsconfig.json              # TypeScript config for UI code
+  app/
+    App.tsx                  # Root component: router setup and route definitions
+    components/
+      Header.tsx             # Top nav bar: app title and navigation links
+    pages/
+      Home.tsx               # "/" route — landing page
+      Data.tsx               # "/data" route — DQL query example
+  assets/                    # Static images and SVGs bundled with the app
+```
+
+## ESLint Enforcement
+
+ESLint is configured in `eslint.config.mjs` using the flat config format. The following rules cause **CI failures** (set to `"error"`) and must not be violated:
+
+- **No root Strato imports** — importing directly from `@dynatrace/strato-components` or `@dynatrace/strato-design-tokens` package roots is blocked. Always import from the specific subcategory path:
+  ```typescript
+  // Wrong — fails lint
+  import { Flex } from "@dynatrace/strato-components";
+  // Correct
+  import { Flex } from "@dynatrace/strato-components/layouts";
+  ```
+
+- **No secrets** — `eslint-plugin-no-secrets` scans all source files for hardcoded credentials. A custom regex additionally detects Dynatrace API tokens (`dt0[a-zA-Z]{1}[0-9]{2}.\.[A-Z0-9]{8,24}\.[A-Z0-9]{64}`). Never commit tokens or keys.
+
+- **No eval** — `no-eval` is enabled. Dynamic code execution is forbidden.
+
+- **No deprecated APIs** — `@typescript-eslint/no-deprecated` flags calls to deprecated SDK methods or Strato component APIs.
+
+**File-specific rule sets:**
+
+| File pattern | Notes |
+|---|---|
+| `**/*.ts`, `**/*.tsx` (excluding `.action.*`, `.widget.*`, `.test.*`) | Full strict rule set including type-checked TypeScript rules |
+| `**/*.action.ts`, `**/*.widget.tsx` | Same base rules; unsafe TypeScript access rules downgraded to warnings to accommodate the Dynatrace JS runtime environment |
+
+Run `npm run lint` locally before pushing to catch violations early.
 
 ## Common Tasks
 - **Add Route**: Update `Routes` in [ui/app/App.tsx](ui/app/App.tsx) and add nav item to [ui/app/components/Header.tsx](ui/app/components/Header.tsx)
