@@ -1,0 +1,15 @@
+name: Markdownlint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint AGENTS.md templates
+        run: npx --yes markdownlint-cli templates/default/AGENTS.md templates/empty/AGENTS.md
