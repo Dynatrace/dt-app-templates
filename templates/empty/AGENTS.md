@@ -11,6 +11,12 @@ Before using any Strato UI component, the agent must always use the knowledge ba
 - Use the `get_strato_component` tool to retrieve detailed documentation, props, and code examples for a specific component.
 - Use the `get_strato_usecases` tool to get code for specific component use cases and patterns.
 
+## Build Quality Rules
+
+- **Important**: Use Strato Design System components wherever possible!
+- **Important**: `npm run build` must pass without errors!
+- **Important**: `npm run lint` must pass without errors!
+
 ## Project Overview
 This repository contains a **Dynatrace App** built with the Dynatrace App Toolkit "dt-app", running on **Dynatrace AppEngine**. Use the **App Toolkit** during development and CI (`dt-app dev`, `dt-app build`, `dt-app deploy`, `dt-app publish`).
 
