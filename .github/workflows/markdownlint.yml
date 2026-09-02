@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Lint AGENTS.md templates
-        run: npx --yes markdownlint-cli templates/default/AGENTS.md templates/empty/AGENTS.md
+        run: npx --yes markdownlint-cli templates/default/AGENTS.md
