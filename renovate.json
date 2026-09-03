@@ -1,0 +1,45 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "ignorePresets": ["group:monorepos", "group:recommended"],
+  "timezone": "Europe/Vienna",
+  "schedule": ["before 6am on monday"],
+  "dependencyDashboard": false,
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 10,
+  "rangeStrategy": "bump",
+  "ignorePaths": ["**/node_modules/**"],
+  "packageRules": [
+    {
+      "matchDepTypes": ["dependencies"],
+      "groupName": "3rd party dependencies",
+      "groupSlug": "third-party-dependencies"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "dev dependencies",
+      "groupSlug": "dev-dependencies"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "dev dependencies",
+      "groupSlug": "dev-dependencies"
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "matchPackageNames": ["@dynatrace/**", "@dynatrace-sdk/**"],
+      "groupName": "Dynatrace dependencies",
+      "groupSlug": "dynatrace-dependencies"
+    },
+    {
+      "description": "The overrides block declares deliberate peer-dependency floors, not real dependencies. Bumping them would needlessly narrow the accepted range.",
+      "matchDepTypes": ["overrides"],
+      "enabled": false
+    },
+    {
+      "description": "engines.node is the minimum Node version supported by generated apps. Raising it is a breaking change for template consumers, so it stays a manual decision.",
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    }
+  ]
+}
