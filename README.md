@@ -32,5 +32,5 @@ To work directly with the source in the templates directory, follow these steps:
 ## Test your changes locally
 
 ```bash
-  npx dt-app create --environment-url YOUR_ENVIRONMENT_URL --template-dir=../cli-templates/templates/empty
+  npx dt-app create --environment-url YOUR_ENVIRONMENT_URL --template-dir=../cli-templates/templates/default
 ```
