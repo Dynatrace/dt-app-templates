@@ -26,9 +26,9 @@
     "@dynatrace-sdk/navigation": "^2.3.1",
     "@dynatrace-sdk/react-hooks": "^1.14.2",
     "@dynatrace-sdk/user-preferences": "^1.1.5",
-    "@dynatrace/strato-components": "^3.12.1",
-    "@dynatrace/strato-design-tokens": "^1.6.0",
-    "@dynatrace/strato-icons": "^2.5.0",
+    "@dynatrace/strato-components": "^3.13.0",
+    "@dynatrace/strato-design-tokens": "^1.7.0",
+    "@dynatrace/strato-icons": "^2.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-is": "^18.3.1",
@@ -53,14 +53,14 @@
     "@types/node": "^24.13.3",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "eslint": "^10.9.1",
+    "eslint": "^10.10.0",
     "eslint-plugin-n": "^18.3.0",
     "eslint-plugin-no-secrets": "^2.3.3",
     "eslint-plugin-no-unsanitized": "^4.1.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-security": "^4.0.1",
-    "typescript": "^6.0.0",
-    "typescript-eslint": "^8.68.0"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.69.0"
   }
 }
