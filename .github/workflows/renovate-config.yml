@@ -13,6 +13,6 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Validate renovate.json
         run: npx --yes --package renovate -- renovate-config-validator --strict
