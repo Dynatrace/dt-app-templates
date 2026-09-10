@@ -10,6 +10,6 @@ jobs:
   markdownlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Lint AGENTS.md templates
         run: npx --yes markdownlint-cli templates/default/AGENTS.md
