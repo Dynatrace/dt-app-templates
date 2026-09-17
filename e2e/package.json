@@ -1,0 +1,26 @@
+{
+  "name": "dt-app-templates-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "End-to-end tests that validate the App Toolkit templates against a released dt-app version.",
+  "type": "module",
+  "scripts": {
+    "init": "npm install && npx playwright install --with-deps chromium",
+    "test": "DT_APP_VERSION=${DT_APP_VERSION:-$(npx tsx ./src/get-last-version.ts)} npx playwright test",
+    "test:ui": "DT_APP_VERSION=${DT_APP_VERSION:-$(npx tsx ./src/get-last-version.ts)} npx playwright test --ui",
+    "test:debug": "DT_APP_VERSION=${DT_APP_VERSION:-$(npx tsx ./src/get-last-version.ts)} npx playwright test --debug",
+    "version:latest": "npx tsx ./src/get-last-version.ts",
+    "version:tag": "npx tsx ./src/get-version-downgraded-to-minor.ts"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^24.13.3",
+    "@types/semver": "^7.8.0",
+    "dotenv": "^16.4.1",
+    "execa": "^8.0.1",
+    "semver": "^7.6.0",
+    "tsx": "^4.6.2",
+    "typescript": "^6.0.3"
+  }
+}

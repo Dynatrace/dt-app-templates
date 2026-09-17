@@ -1,0 +1,192 @@
+name: E2E
+
+# Validates that the templates still work with a released dt-app version by generating an app and
+# running the full developer flow against it. See e2e/README.md.
+#
+# Two jobs, split by whether they need Dynatrace credentials:
+#   template-checks - create/build/lint only. No secrets, so it runs on every pull request.
+#   e2e             - adds the dev server and the browser assertions, which require a tenant.
+#                     Reads the `e2e` environment, which is restricted to main and gated on review.
+
+on:
+  # Every commit on every branch, including main. Same-repo pull requests are covered by this too,
+  # because checks attach to the head commit and therefore surface on the pull request.
+  push:
+  # Only reached for pull requests from forks - see the guard on each job. Without this, fork
+  # contributions would get no validation at all, since their pushes are to another repository.
+  pull_request:
+  repository_dispatch:
+    types: [dt-app-released]
+  workflow_dispatch:
+    inputs:
+      dt_app_version:
+        description: 'Exact dt-app version to test. Defaults to the newest release.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.event.pull_request.head.label || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  resolve-version:
+    name: Resolve dt-app version
+    # A same-repo pull request is already covered by its branch push, so only let the
+    # pull_request event through for forks. Prevents every PR commit running twice.
+    if: >-
+      github.event_name != 'pull_request'
+      || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - run: npm ci
+        working-directory: e2e
+
+      - id: resolve
+        name: Resolve version
+        working-directory: e2e
+        env:
+          # Never interpolated straight into the script - a dispatch payload is caller-controlled.
+          REQUESTED: ${{ github.event.inputs.dt_app_version || github.event.client_payload.dt_app_version }}
+        run: |
+          set -euo pipefail
+          if [ -n "${REQUESTED}" ]; then
+            version="${REQUESTED}"
+          else
+            version="$(npm run --silent version:latest)"
+          fi
+          echo "Testing dt-app@${version}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+  template-checks:
+    name: Template checks (TS ${{ matrix.typescript }})
+    needs: resolve-version
+    # A same-repo pull request is already covered by its branch push, so only let the
+    # pull_request event through for forks. Prevents every PR commit running twice.
+    if: >-
+      github.event_name != 'pull_request'
+      || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        typescript: ['5.6.2', '6.0.3']
+        include:
+          # TypeScript majors ship faster than the templates adopt them, so `latest` is advisory:
+          # it warns about the next major without blocking a release. Currently red on TS 7, where
+          # `dt-app action create` scaffolds ts-jest@29 (peer `typescript >=4.3 <7`).
+          - typescript: latest
+            advisory: true
+    continue-on-error: ${{ matrix.advisory == true }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - run: npm ci
+        working-directory: e2e
+
+      - name: Run template checks
+        working-directory: e2e
+        env:
+          DT_APP_VERSION: ${{ needs.resolve-version.outputs.version }}
+          TYPESCRIPT_VERSIONS: ${{ matrix.typescript }}
+          DT_APP_DISABLE_TELEMETRY: '1'
+          # These checks never contact the environment; dt-app only validates the URL's shape and
+          # writes it into app.config.json. Using a placeholder keeps this job secret-free, which
+          # is what lets it run on pull requests from forks.
+          DT_APP_ENVIRONMENT_URL: https://placeholder.apps.dynatrace.com
+        run: npx playwright test --grep @offline
+
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: template-checks-${{ matrix.typescript }}
+          path: e2e/playwright-report/
+          retention-days: 7
+
+  e2e:
+    name: E2E (TS ${{ matrix.typescript }})
+    needs: resolve-version
+    # Restricted to main because the `e2e` environment's deployment branch policy only permits
+    # main. Branch pushes and pull requests would be blocked by that policy rather than run, so
+    # they are deliberately excluded here - template-checks covers them without needing secrets.
+    # repository_dispatch always runs on the default branch, so releases still reach this job.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: e2e
+    strategy:
+      fail-fast: false
+      matrix:
+        typescript: ['5.6.2', '6.0.3']
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - run: npm ci
+        working-directory: e2e
+
+      - name: Verify credentials are present
+        env:
+          DT_APP_ENVIRONMENT_URL: ${{ secrets.DT_APP_ENVIRONMENT_URL }}
+          DT_APP_OAUTH_CLIENT_ID: ${{ secrets.DT_APP_OAUTH_CLIENT_ID }}
+          DT_APP_OAUTH_CLIENT_SECRET: ${{ secrets.DT_APP_OAUTH_CLIENT_SECRET }}
+        run: |
+          set -uo pipefail
+          missing=0
+          for name in DT_APP_ENVIRONMENT_URL DT_APP_OAUTH_CLIENT_ID DT_APP_OAUTH_CLIENT_SECRET; do
+            if [ -z "${!name}" ]; then
+              echo "::error::${name} is not set in the e2e environment"
+              missing=1
+            fi
+          done
+          # Without credentials `dt-app dev` falls back to the interactive browser login and waits
+          # forever rather than failing, so check up front instead of burning the job timeout.
+          exit "${missing}"
+
+      - name: Install Playwright browser
+        working-directory: e2e
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        working-directory: e2e
+        env:
+          DT_APP_VERSION: ${{ needs.resolve-version.outputs.version }}
+          TYPESCRIPT_VERSIONS: ${{ matrix.typescript }}
+          DT_APP_DISABLE_TELEMETRY: '1'
+          DT_APP_ENVIRONMENT_URL: ${{ secrets.DT_APP_ENVIRONMENT_URL }}
+          DT_APP_OAUTH_CLIENT_ID: ${{ secrets.DT_APP_OAUTH_CLIENT_ID }}
+          DT_APP_OAUTH_CLIENT_SECRET: ${{ secrets.DT_APP_OAUTH_CLIENT_SECRET }}
+        run: npx playwright test
+
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-report-${{ matrix.typescript }}
+          path: e2e/playwright-report/
+          retention-days: 7
