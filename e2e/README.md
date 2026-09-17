@@ -75,3 +75,41 @@ problem.
 - `npm run version:latest` - prints the newest released `dt-app` version.
 - `npm run version:tag <version>` - prints the matching template tag (`1.18.7` gives `1.18.0`).
   That tag is what `dt-app create` fetches templates from, so it is what a release must publish.
+
+## The template tag
+
+`dt-app create` does not bundle templates - it downloads them from this repository at run time,
+from the tag matching its own minor version:
+
+```text
+dt-app@1.18.7  ->  strips the patch  ->  downloads tag 1.18.0
+```
+
+If that tag is missing the CLI does not fail; it silently falls back to `main.zip`. So a missing
+or stale tag quietly serves unvalidated templates to every user of that CLI minor.
+
+The `tag` job publishes it, and only on a release:
+
+1. wave publishes `dt-app@1.18.7` to npm.
+2. wave sends a `repository_dispatch` to this repository with that version.
+3. `resolve-version` takes the version from the payload, `e2e` validates the templates against it.
+4. If `e2e` passes, `tag` force-moves `1.18.0` onto the tested commit.
+
+A failing run therefore leaves the previous tag in place, so users keep the last validated
+templates rather than getting broken ones.
+
+Pushes to `main` deliberately do **not** publish a tag. The Jenkins job this replaced appeared to
+have a second path for that, gated on `changeset "templates/**/*"`, but `templates/` was never
+tracked in that repository - the same commit that added the condition also gitignored the
+directory - so it could never match, and no tag was ever published from a template change.
+
+### Triggering a release run by hand
+
+```bash
+gh api repos/Dynatrace/dt-app-templates/dispatches \
+  -f event_type=dt-app-released \
+  -F client_payload[dt_app_version]=1.18.7
+```
+
+Tags are protected, so only this workflow can publish them - a `git push origin 1.18.0` from a
+developer machine is rejected.

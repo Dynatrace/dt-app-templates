@@ -3,10 +3,13 @@ name: E2E
 # Validates that the templates still work with a released dt-app version by generating an app and
 # running the full developer flow against it. See e2e/README.md.
 #
-# Two jobs, split by whether they need Dynatrace credentials:
+# Four jobs:
+#   resolve-version - which dt-app version to test: the dispatch payload, else the newest release.
 #   template-checks - create/build/lint only. No secrets, so it runs on every pull request.
 #   e2e             - adds the dev server and the browser assertions, which require a tenant.
-#                     Reads the `e2e` environment, which is restricted to main and gated on review.
+#                     Reads the `e2e` environment, which is restricted to main.
+#   tag             - on a release only, force-moves the `X.Y.0` tag that `dt-app create`
+#                     downloads templates from. Gated on e2e passing.
 
 on:
   # Every commit on every branch, including main. Same-repo pull requests are covered by this too,
@@ -67,6 +70,13 @@ jobs:
           else
             version="$(npm run --silent version:latest)"
           fi
+          # A dispatch payload is caller-supplied, so validate before it reaches $GITHUB_OUTPUT.
+          # An unvalidated value could smuggle a newline and inject further workflow outputs, and
+          # a non-semver value would otherwise surface much later as a confusing test failure.
+          if ! printf '%s' "${version}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
+            echo "::error::'${version}' is not an exact dt-app version"
+            exit 1
+          fi
           echo "Testing dt-app@${version}"
           echo "version=${version}" >> "$GITHUB_OUTPUT"
 
@@ -84,15 +94,6 @@ jobs:
       fail-fast: false
       matrix:
         typescript: ['5.6.2', '6.0.3']
-        include:
-          # Advisory leg: expected to fail today and deliberately non-blocking, so it warns about
-          # the next TypeScript major without holding up a release. `latest` is TypeScript 7,
-          # excluded by dt-app's own `peer typescript >=4.9.5 <7`, by typescript-eslint@8
-          # (`<6.1.0`), and by the ts-jest@29 that `dt-app action create` scaffolds (`<7`).
-          # This turning green is the signal that the templates can adopt the new major.
-          - typescript: latest
-            advisory: true
-    continue-on-error: ${{ matrix.advisory == true }}
     steps:
       - uses: actions/checkout@v7
 
@@ -192,3 +193,61 @@ jobs:
           name: e2e-report-${{ matrix.typescript }}
           path: e2e/playwright-report/
           retention-days: 7
+
+  tag:
+    name: Publish template tag
+    # Only a release publishes a tag. Pushes to main deliberately do not: the tag records which
+    # templates a released dt-app minor scaffolds from, so it should only move once the templates
+    # have been validated against an actual released version.
+    #
+    # Note this is narrower than the Jenkins job it replaces. That had a second path gated on
+    # `changeset "templates/**/*"`, but `templates/` was never tracked in the Bitbucket repo - the
+    # same commit that wrote the condition also gitignored the directory - so it could never match
+    # and no tag was ever published from a template change.
+    if: github.event_name == 'repository_dispatch'
+    # Depends on e2e rather than template-checks: e2e is the superset (all 15 tests), and
+    # template-checks carries advisory legs whose continue-on-error would mask a real failure here.
+    needs: [resolve-version, e2e]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - run: npm ci
+        working-directory: e2e
+
+      - name: Publish the tag
+        working-directory: e2e
+        env:
+          VERSION: ${{ needs.resolve-version.outputs.version }}
+        run: |
+          set -euo pipefail
+          tag="$(npm run --silent version:tag -- "${VERSION}")"
+
+          # The tag is what every `dt-app create` downloads, so refuse anything unexpected rather
+          # than force-pushing a ref derived from a value that slipped through.
+          if ! printf '%s' "${tag}" | grep -qE '^[0-9]+\.[0-9]+\.0$'; then
+            echo "::error::refusing to publish unexpected tag '${tag}' (from version '${VERSION}')"
+            exit 1
+          fi
+
+          echo "Pointing ${tag} at ${GITHUB_SHA} (dt-app ${VERSION})"
+
+          # A single force-push is atomic. The Jenkins original deleted the remote tag and then
+          # recreated it, leaving a window where `dt-app create` would 404 and silently fall back
+          # to main.zip - unvalidated templates.
+          git tag -f "${tag}" "${GITHUB_SHA}"
+          git push --force origin "refs/tags/${tag}"
+
+          echo "### Published template tag \`${tag}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- dt-app version tested: \`${VERSION}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- commit: \`${GITHUB_SHA}\`" >> "$GITHUB_STEP_SUMMARY"
