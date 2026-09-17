@@ -85,9 +85,21 @@ jobs:
       matrix:
         typescript: ['5.6.2', '6.0.3']
         include:
-          # TypeScript majors ship faster than the templates adopt them, so `latest` is advisory:
-          # it warns about the next major without blocking a release. Currently red on TS 7, where
-          # `dt-app action create` scaffolds ts-jest@29 (peer `typescript >=4.3 <7`).
+          # Advisory legs. These are expected to fail and deliberately do not block: they document
+          # where support ends, so a run turns green here the moment a boundary actually moves.
+          #
+          # Below the floor: dt-app@1.x declares `peer typescript >=4.9.5 <7`, so 4.9.2 is rejected
+          # during install before it ever reaches a build.
+          - typescript: 4.9.2
+            advisory: true
+          # At dt-app's declared floor, but still unbuildable: the templates set
+          # `moduleResolution: bundler`, which only exists from TypeScript 5.0, so every subpath
+          # import fails with TS2792. True since #78 (2026-02-20).
+          - typescript: 4.9.5
+            advisory: true
+          # Above the ceiling: `latest` is TypeScript 7, excluded by dt-app's own peer range, by
+          # typescript-eslint@8 (`<6.1.0`) and by the ts-jest@29 that `dt-app action create`
+          # scaffolds (`<7`). Warns about the next major without blocking a release.
           - typescript: latest
             advisory: true
     continue-on-error: ${{ matrix.advisory == true }}
