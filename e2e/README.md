@@ -51,8 +51,6 @@ TypeScript version it claimed - the install ran in the harness directory instead
 app, so it silently reported the template's own TypeScript as a pass. See the note in
 `default.spec.ts`.
 
-CI runs a `latest` leg as advisory (non-blocking) to give early warning of the next major.
-
 ## Credentials
 
 `dt-app dev` authenticates against the environment before it will serve anything, so

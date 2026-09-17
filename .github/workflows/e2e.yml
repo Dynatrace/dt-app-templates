@@ -106,20 +106,7 @@ jobs:
           # writes it into app.config.json. Using a placeholder keeps this job secret-free, which
           # is what lets it run on pull requests from forks.
           DT_APP_ENVIRONMENT_URL: https://placeholder.apps.dynatrace.com
-        run: |
-          set +e
-          npx playwright test --grep @offline
-          status=$?
-          set -e
-
-          if [ "${{ matrix.advisory || false }}" = "true" ]; then
-            if [ "$status" -ne 0 ]; then
-              echo "::warning::TypeScript latest advisory check failed, but it is non-blocking."
-            fi
-            exit 0
-          fi
-
-          exit "$status"
+        run: npx playwright test --grep @offline
 
       - name: Upload report
         if: failure()
