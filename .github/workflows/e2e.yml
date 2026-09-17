@@ -88,11 +88,8 @@ jobs:
           # Advisory legs. These are expected to fail and deliberately do not block: they document
           # where support ends, so a run turns green here the moment a boundary actually moves.
           #
-          # Below the floor: dt-app@1.x declares `peer typescript >=4.9.5 <7`, so 4.9.2 is rejected
-          # during install before it ever reaches a build.
-          - typescript: 4.9.2
-            advisory: true
-          # At dt-app's declared floor, but still unbuildable: the templates set
+          # dt-app@1.x declares `peer typescript >=4.9.5 <7`, so 4.9.5 is its lowest supported
+          # version - and it is still unbuildable here, because the templates set
           # `moduleResolution: bundler`, which only exists from TypeScript 5.0, so every subpath
           # import fails with TS2792. True since #78 (2026-02-20).
           - typescript: 4.9.5
