@@ -35,14 +35,16 @@ Use `npm run test:ui` or `npm run test:debug` to step through the browser assert
 The default matrix is `5.6.2, 6.0.3`. That is the range the templates actually support, and both
 ends are load-bearing:
 
-- **Below 5.0** cannot build at all. `ui/tsconfig.json` sets `"moduleResolution": "bundler"`, which
-  only exists from TypeScript 5.0 onwards; on 4.x every subpath import fails with `TS2792`. The
-  generated `actions/tsconfig.*.json` files that `dt-app` writes use `bundler` too, so this is not
-  something the templates can opt out of alone.
-- **7.0 and above** is blocked twice over: `typescript-eslint@8` declares
-  `peer typescript >=4.8.4 <6.1.0`, and the `ts-jest@29` that `dt-app action create` scaffolds
-  declares `peer typescript >=4.3 <7`. TypeScript 7 is already the `latest` tag on npm, so
-  `create:action` is broken today for anyone on it.
+- **Below 5.0** fails for two stacked reasons, in this order. First `create:action` fails, because
+  `eslint-plugin-n@18` declares `peer typescript >=5.0.0` and npm refuses to resolve the tree.
+  Remove that constraint and `build` fails instead: `ui/tsconfig.json` sets
+  `"moduleResolution": "bundler"`, which only exists from TypeScript 5.0, so every subpath import
+  errors with `TS2792`. The `actions/tsconfig.*.json` files that `dt-app` generates use `bundler`
+  too, so the second one cannot be worked around from this repository alone.
+- **7.0 and above** is blocked three times over: `dt-app` itself declares
+  `peer typescript >=4.9.5 <7`, `typescript-eslint@8` declares `>=4.8.4 <6.1.0`, and the
+  `ts-jest@29` that `dt-app action create` scaffolds declares `>=4.3 <7`. TypeScript 7 is already
+  the `latest` tag on npm, so `create:action` is broken today for anyone on it.
 
 An earlier version of the matrix included `4.9.5`, but that leg never actually installed the
 TypeScript version it claimed - the install ran in the harness directory instead of the generated
