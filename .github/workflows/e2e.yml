@@ -84,6 +84,15 @@ jobs:
       fail-fast: false
       matrix:
         typescript: ['5.6.2', '6.0.3']
+        include:
+          # Advisory leg: expected to fail today and deliberately non-blocking, so it warns about
+          # the next TypeScript major without holding up a release. `latest` is TypeScript 7,
+          # excluded by dt-app's own `peer typescript >=4.9.5 <7`, by typescript-eslint@8
+          # (`<6.1.0`), and by the ts-jest@29 that `dt-app action create` scaffolds (`<7`).
+          # This turning green is the signal that the templates can adopt the new major.
+          - typescript: latest
+            advisory: true
+    continue-on-error: ${{ matrix.advisory == true }}
     steps:
       - uses: actions/checkout@v7
 
