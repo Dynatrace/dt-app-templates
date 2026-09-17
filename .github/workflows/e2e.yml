@@ -98,7 +98,6 @@ jobs:
           #      time (since #78, 2026-02-20).
           # Fixing only the first would just move the failure to the second.
           - typescript: 4.9.5
-            advisory: true
           # Above the ceiling: `latest` is TypeScript 7, excluded by dt-app's own peer range, by
           # typescript-eslint@8 (`<6.1.0`) and by the ts-jest@29 that `dt-app action create`
           # scaffolds (`<7`). Warns about the next major without blocking a release.
