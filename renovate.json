@@ -7,6 +7,8 @@
   "dependencyDashboard": false,
   "prHourlyLimit": 0,
   "prConcurrentLimit": 10,
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
   "rangeStrategy": "bump",
   "ignorePaths": ["**/node_modules/**"],
   "packageRules": [
