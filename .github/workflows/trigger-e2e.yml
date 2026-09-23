@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'templates/**'
+  # Lets the e2e pipeline be exercised without waiting for a templates change
+  workflow_dispatch:
 
 permissions:
   contents: read
