@@ -35,21 +35,6 @@ To work directly with the source in the templates directory, follow these steps:
   npx dt-app create --environment-url YOUR_ENVIRONMENT_URL --template-dir=../cli-templates/templates/default
 ```
 
-## End-to-end tests
-
-[`e2e/`](./e2e) holds a Playwright suite that generates an app from each template and runs the full
-developer flow against it (`create`, `create:action`, `build`, `lint`, dev server, UI assertions).
-
-```bash
-cd e2e
-cp .example.env .env   # then fill in the values
-npm run init
-npm test
-```
-
-See [`e2e/README.md`](./e2e/README.md) for credentials, pinning a `dt-app` version, and narrowing
-the TypeScript versions under test.
-
 ## Dependency updates
 
 Dependency versions in the templates are kept up to date by [Renovate](https://docs.renovatebot.com/)
