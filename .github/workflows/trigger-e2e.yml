@@ -1,0 +1,28 @@
+name: Trigger E2E
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'templates/**'
+
+permissions:
+  contents: read
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger e2e tests
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.DT_APP_TEMPLATES_E2E_TOKEN }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'dynatrace-apps',
+              repo: 'dt-app-templates-e2e',
+              event_type: 'templates-changed',
+              client_payload: {
+                sha: context.sha,
+              },
+            });
