@@ -2,7 +2,7 @@
   "mcpServers": {
     "dt-app-mcp": {
       "command": "npx",
-      "args": ["-y", "dt-app-mcp"]
+      "args": ["-y", "dt-app-mcp@latest"]
     }
   }
 }
