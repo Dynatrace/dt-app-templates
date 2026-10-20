@@ -129,9 +129,9 @@ Dynatrace provides TypeScript client SDKs to interact with platform services. Ea
 ### Commands
 
 ```bash
-npm run start            # Start dev server with hot reload (opens browser automatically)
-npm run build            # Compile and bundle the app into dist/
-npm run deploy           # Build and deploy to the environment in app.config.json
+npm run start            # Start the Vite dev server with hot module replacement (opens browser automatically)
+npm run build            # Compile and bundle the app into dist/ using the Vite toolchain with code splitting
+npm run deploy           # Build (Vite, code splitting) and deploy to the environment in app.config.json
 npm run lint             # Run ESLint across the entire project
 npm run create:function  # Scaffold a new backend function (Dynatrace JS runtime)
 npm run create:action    # Scaffold a new Action (extends Dynatrace platform actions)

@@ -10,17 +10,17 @@ In the project directory, you can run:
 
 ### `npm run start`
 
-Runs the app in the development mode. A new browser window with your running app will be automatically opened.
+Runs the app in the development mode using the Vite dev server. A new browser window with your running app will be automatically opened.
 
-Edit a component file in `ui` and save it. The page will reload when you make changes. You may also see any errors in the console.
+Edit a component file in `ui` and save it. The changes are applied through hot module replacement. You may also see any errors in the console.
 
 ### `npm run build`
 
-Builds the app for production to the `dist` folder. It correctly bundles your app in production mode and optimizes the build for the best performance.
+Builds the app for production to the `dist` folder. It bundles your app with Vite in production mode, using code splitting to optimize the build for the best performance.
 
 ### `npm run deploy`
 
-Builds the app and deploys it to the specified environment in `app.config.json`.
+Builds the app (with Vite and code splitting) and deploys it to the specified environment in `app.config.json`.
 
 ### `npm run uninstall
 
