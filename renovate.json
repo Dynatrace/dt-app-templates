@@ -4,7 +4,9 @@
   "ignorePresets": ["group:monorepos", "group:recommended"],
   "description": "Renovate runs from the scheduled 'Renovate' GitHub Actions workflow (every Monday). Timing is owned by that workflow's cron, so no 'schedule' is set here - a config schedule would silently drop runs whenever GitHub delays the cron past the window.",
   "timezone": "Europe/Vienna",
-  "dependencyDashboard": false,
+  "dependencyDashboard": {
+    "enabled": false
+  },
   "prHourlyLimit": 0,
   "prConcurrentLimit": 10,
   "minimumReleaseAge": "3 days",
